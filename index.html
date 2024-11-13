@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Order</title>
+</head>
+<body>
+    <h1>Order Products</h1>
+    <form id="orderForm" action="/orders" method="post">
+        <label for="product">Choose a product:</label>
+        <select id="product" name="product">
+            <option value="HP-1001">Hydraulic Pump</option>
+            <option value="ID-2020">Industrial Drill</option>
+            <option value="SH-3050">Safety Helmet</option>
+            <option value="WM-4500">Welding Machine</option>
+            <option value="CB-6000">Conveyor Belt</option>
+        </select>
+        <br>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" min="1" required>
+        <br>
+        <button type="submit">Order</button>
+    </form>
+
+    <script>
+        document.getElementById('orderForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const product = document.getElementById('product').value;
+            const quantity = document.getElementById('quantity').value;
+
+            fetch('http://localhost:3000/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ product, quantity })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
